@@ -1,0 +1,8 @@
+acme_news:
+    resource: "@AcmeNewsBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation

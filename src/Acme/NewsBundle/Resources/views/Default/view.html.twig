@@ -1,0 +1,8 @@
+{% block body %}
+        <h3>News №{{ entry.id }}</h3><br/>
+        {% if entry.datePublic %}{{ entry.datePublic | date('Y-m-d H:i:s') }}{% endif %}<br/>
+        {{ entry.shortText }}<br/>
+        {{ entry.allText }}<br/>
+        <br/>
+{% endblock %}
+<a href="{{ path('index') }}">Back news</a> <br/><br/>

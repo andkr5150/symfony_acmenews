@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container" >
+<h1>NEWS</h1>
+<br/>
+<a href="{{ path('create') }}">Create news</a> <br/><br/>
+{# total items count #}
+<div class="count">
+    Count news = {{ pagination.getTotalItemCount }}
+</div>
+    <table class="table">
+    <tr>
+        {# sorting of properties based on query components #}
+        <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
+        <th{% if pagination.isSorted('a.shortText') %} class="sorted"{% endif %}>
+            {{ knp_pagination_sortable(pagination, 'Title', 'a.shortText') }}</th>
+        <th>{{ knp_pagination_sortable(pagination, 'date', 'a.datePublic') }}</th>
+        <th>{{ knp_pagination_sortable(pagination, 'public', 'a.publication') }}</th>
+        <th>{{ knp_pagination_sortable(pagination, 'view', '') }}</th>
+    </tr>
+
+    {# table body #}
+    {% for db_news in pagination %}
+        <tr {% if loop.index is odd %}class="color"{% endif %}>
+            <td>{{ db_news.id }}</td>
+            <td>{{ db_news.shortText }}</td>
+            <td>{{ db_news.datePublic | date('Y-m-d') }} </td>
+            <td>
+            {% if db_news.publication %}
+                <b>on</b>
+            {% else %}
+                <b>off</b>
+            {% endif %}
+            </td>
+            <td><a href="{{ path('view', { 'id': db_news.id }) }}">html</a> </td>
+        </tr>
+    {% endfor %}
+    </table>
+{# display navigation #}
+<div class="navigation">
+    {{ knp_pagination_render(pagination) }}
+</div>
+</div>
+
+</body>
+</html>
