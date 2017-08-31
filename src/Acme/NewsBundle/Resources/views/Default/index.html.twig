@@ -16,7 +16,7 @@
 <div class="count">
     Count news = {{ pagination.getTotalItemCount }}
 </div>
-    <table class="table">
+    <table class="table table-condensed">
     <tr>
         {# sorting of properties based on query components #}
         <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
@@ -31,7 +31,7 @@
     {% for db_news in pagination %}
         <tr {% if loop.index is odd %}class="color"{% endif %}>
             <td>{{ db_news.id }}</td>
-            <td>{{ db_news.shortText }}</td>
+            <td>{{ db_news.shortText | slice(0, 25) }} ... </td>
             <td>{{ db_news.datePublic | date('Y-m-d') }} </td>
             <td>
             {% if db_news.publication %}

@@ -68,9 +68,30 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $id = $request->get('id');
+        $entryAll = $em->getRepository(db_news::class)->findAll();
         $entry = $em->getRepository(db_news::class)->find($id);
 
-        return $this->render('AcmeNewsBundle:Default:view.html.twig', array('entry' => $entry));
+/*
+        $sql = "SELECT * FROM `db_news` ORDER BY RAND() LIMIT 1";
+        $em = $this->getDoctrine()->getEntityManager();
+        $result = $em->createQuery($sql)->getResult();
+*/
+        $arrayId = array();
+        foreach ($entryAll as $el => $value)
+        {
+            array_push($arrayId, $value);
+        }
+
+        $addNews = array();
+        while (count($addNews)!=4) {
+            $randId = array_rand($arrayId);
+            if ($randId != $id) {
+                $news = $em->getRepository(db_news::class)->find($randId);
+                if (in_array($news, $addNews) == false) {array_push($addNews, $news);}
+            }
+        }
+
+        return $this->render('AcmeNewsBundle:Default:view.html.twig', array('entry' => $entry, 'addNews'=> $addNews ));
     }
 
 }

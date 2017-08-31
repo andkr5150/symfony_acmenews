@@ -1,8 +1,43 @@
-{% block body %}
-        <h3>News №{{ entry.id }}</h3><br/>
-        {% if entry.datePublic %}{{ entry.datePublic | date('Y-m-d H:i:s') }}{% endif %}<br/>
-        {{ entry.shortText }}<br/>
-        {{ entry.allText }}<br/>
-        <br/>
-{% endblock %}
-<a href="{{ path('index') }}">Back news</a> <br/><br/>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <title>Document</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container" >
+        <table class="table">
+        {% block body %}
+            <tr>
+                <td colspan="4"><h3>News №{{ entry.id }}</h3><br/></td>
+            </tr>
+            <tr>
+                <td colspan="4" align="right">{% if entry.datePublic %}{{ entry.datePublic | date('Y-m-d H:i:s') }}{% endif %}<br/></td>
+            </tr>
+            <tr>
+                <td colspan="4">{{ entry.shortText  | slice(0, 25) }} ...<br/></td>
+            </tr>
+            <tr>
+                <td colspan="4">{{ entry.allText }}<br/></td>
+            </tr>
+            <tr>
+                    {% for News in addNews %}
+                <td>
+                        <b> news №{{ News.id }}</b><br/>
+                        {{ News.shortText  | slice(0, 10) }} ... <br/>
+                        {% if News.datePublic %}{{ News.datePublic | date('Y-m-d H:i:s') }}{% endif %}
+                </td>
+                    {% endfor %}
+            </tr>
+        {% endblock %}
+        </table>
+    <a href="{{ path('index') }}">Back news</a> <br/><br/>
+
+
+</div>
+
+</body>
+</html>
